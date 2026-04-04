@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaked Music - Anuel AA</title>
+    <title>Leaked Music</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         body {
             margin: 0;
             padding: 0;
-           
-            background-color: #1a1a1b; 
+            background-color: #121212; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: white;
         }
 
-        
         .navbar {
             width: 100%;
             background-color: #000000;
@@ -31,7 +31,6 @@
             position: fixed;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .container {
@@ -41,191 +40,99 @@
             padding: 30px;
             border-radius: 25px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            max-width: 950px;
+            max-width: 900px;
             width: 90%;
             gap: 40px;
             align-items: center;
+            color: #1d1d1f;
         }
 
-        
         .left-side img {
-            width: 400px;
-            height: 400px;
+            width: 350px;
+            height: 350px;
             border-radius: 15px;
             object-fit: cover;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
         }
 
-        
         .right-side {
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .info-tema {
-            margin-bottom: 25px;
-        }
-
         .info-tema h2 { 
-            margin: 0; 
-            font-size: 26px; 
-            color: #1d1d1f; 
+            margin: 0 0 15px 0; 
+            font-size: 24px; 
             font-weight: 600;
         }
 
-        audio { 
-            width: 100%; 
-            margin-top: 20px; 
-            height: 45px; 
+        /* Barra de progreso */
+        #progreso {
+            width: 100%;
+            cursor: pointer;
+            accent-color: #0071e3;
         }
 
-        .btn-container {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        button {
-            flex: 1;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #d2d2d7;
+        /* Controles */
+        .controls-row {
             background: #f5f5f7;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        button:hover { 
-            background: #e8e8ed; 
-            transform: scale(1.02);
-        }
-
-        
-        .playlist {
-            margin-top: 15px;
-            border: 1px solid #e5e5e5;
+            padding: 15px;
             border-radius: 15px;
-            overflow: hidden;
-            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
         }
 
-        .track {
-            padding: 18px;
-            border-bottom: 1px solid #eeeeee;
+        .material-icons {
             cursor: pointer;
-            font-size: 16px;
-            color: #333;
-            transition: 0.2s;
+            user-select: none;
         }
 
-        .track:last-child { border-bottom: none; }
-        .track:hover { background: #0071e3; color: white; }
-        
-        .active-track { 
-            background: #f0f0f5; 
-            font-weight: bold; 
-            color: #0071e3;
-            border-left: 5px solid #0071e3;
-        }
-        
-        .material-icons:not(#icon-play) {
-            color: rgba(29, 29, 31, 0.3) !important; 
-            transition: color 0.3s ease;
+        #icon-play-container {
+            background: #1d1d1f;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .material-icons:not(#icon-play):hover {
-            color: rgba(29, 29, 31, 0.7) !important; 
-        }
-
-        
+        /* Volumen */
         #volume-popover {
-            opacity: 0;
-            transform: translateX(20px); 
-            transition: all 0.4s ease; 
             display: flex;
             align-items: center;
             gap: 10px;
-            visibility: hidden; 
         }
 
-        
-        #repeat-volume-group:hover #volume-popover {
-            opacity: 1;
-            transform: translateX(0); 
-            visibility: visible;
-        }
-
-        
         #volumen {
-            flex: 1;
+            width: 80px;
             cursor: pointer;
-            accent-color: #0071e3; 
-            height: 4px;
-            background: #1d1d1f; 
-            appearance: none;
-            border-radius: 2px;
+            accent-color: #0071e3;
         }
 
-        /* Estilo General */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #121212; /* Cambia este código por el color exacto de tu fondo */
-    margin: 0;
-}
+        /* Playlist */
+        .playlist {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+        }
 
-/* Barra Superior Negra */
-.top-bar {
-    background-color: black;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-}
+        .track {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-#search-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-}
-
-/* Portada */
-.cover-art img {
-    width: 250px; /* Ajusta según tu diseño */
-    height: 250px;
-    object-fit: cover;
-    cursor: pointer;
-    display: block; /* Asegura que se vea "de una" */
-}
-
-/* Playlist: 3 filas con scroll */
-.playlist-box {
-    max-height: 210px; /* Si cada fila mide 70px, esto mostrará exactamente 3 */
-    overflow-y: auto;
-    scrollbar-width: thin;
-}
-
-/* Lógica del Volumen (Aparece al sobreponer el cursor) */
-.extra-controls {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
-.volume-slider-container {
-    width: 0;
-    overflow: hidden;
-    transition: width 0.3s ease;
-}
-
-.extra-controls:hover .volume-slider-container {
-    width: 100px; /* Se despliega hacia la derecha */
-    margin-left: 10px;
-}
+        .track:hover { background: #0071e3; color: white; }
+        .active-track { background: #f0f0f5; font-weight: bold; color: #0071e3; border-left: 5px solid #0071e3; }
     </style>
 </head>
 <body>
@@ -234,234 +141,133 @@ body {
 
     <div class="container">
         <div class="left-side">
-            <img id="portada-imagen" src="Bugatti.png" alt="Portada">
+            <img id="portada-imagen" src="Bugatti.png" alt="Portada" onclick="togglePlay()">
         </div>
 
         <div class="right-side">
-    <div class="info-tema">
-        <h2 id="titulo-actual" style="font-size: 22px; margin-bottom: 10px;">Bugatti - Anuel AA</h2>
-        <audio id="reproductor">
-            <source id="audio-source" src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+            <div class="info-tema">
+                <h2 id="titulo-actual">Bugatti - Anuel AA</h2>
+                <audio id="audio-player">
+                    <source id="audio-source" src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
+                </audio>
+            </div>
 
-    <div style="margin-bottom: 20px;">
-        <input type="range" id="progreso" value="0" min="0" max="100" style="width: 100%; cursor: pointer; accent-color: #0071e3;">
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #86868b; margin-top: 5px;">
-            <span id="tiempo-actual">0:00</span>
-            <span id="tiempo-total">0:00</span>
-        </div>
-    </div>
+            <div>
+                <input type="range" id="progreso" value="0" min="0" max="100">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; color: #86868b; margin-top: 5px;">
+                    <span id="tiempo-actual">0:00</span>
+                    <span id="tiempo-total">0:00</span>
+                </div>
+            </div>
 
-    <div style="background: #f5f5f7; padding: 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px;">
-        
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <span class="material-icons" id="btn-random" onclick="activarAleatorio()" style="cursor:pointer; font-size: 24px;">shuffle</span>
-            <span class="material-icons" onclick="anterior()" style="cursor:pointer; font-size: 32px;">skip_previous</span>
-        </div>
-        
-        <div onclick="togglePlay()" style="background: #1d1d1f; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-            <span class="material-icons" id="icon-play">play_arrow</span>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <span class="material-icons" onclick="siguiente()" style="cursor:pointer; font-size: 32px;">skip_next</span>
-
-            <div id="repeat-volume-group" style="display: flex; align-items: center; gap: 10px; position: relative;">
-                
-                <div id="volume-popover">
-                    <input type="range" id="volumen" min="0" max="1" step="0.1" value="1" oninput="ajustarVolumen(this.value)" style="width: 80px;">
+            <div class="controls-row">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span class="material-icons" id="btn-random" onclick="activarAleatorio()">shuffle</span>
+                    <span class="material-icons" style="font-size: 35px;" onclick="anterior()">skip_previous</span>
                 </div>
 
-                <span class="material-icons" id="btn-loop" onclick="activarBucle()" style="cursor:pointer; font-size: 24px;">repeat</span>
+                <div id="icon-play-container" onclick="togglePlay()">
+                    <span class="material-icons" id="icon-play">play_arrow</span>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span class="material-icons" style="font-size: 35px;" onclick="siguiente()">skip_next</span>
+                    
+                    <div id="volume-popover">
+                        <span class="material-icons" style="font-size: 20px;">volume_up</span>
+                        <input type="range" id="volumen" min="0" max="1" step="0.1" value="1" oninput="ajustarVolumen(this.value)">
+                    </div>
+                </div>
             </div>
+
+            <div class="playlist" id="lista-playlist"></div>
         </div>
     </div>
-
-    <div class="playlist" id="lista-playlist" style="margin-top: 20px;"></div>
-</div>
 
     <script>
-        
-       const canciones = [
-        { audio: 'Bugatti - Anuel AA.mp3', imagen: 'Bugatti - Anuel AA.png', titulo: 'Bugatti - Anuel AA' },
-        { audio: 'Londres - Anuel AA.mp3', imagen: 'Londres - Anuel AA.png', titulo: 'Londres - Anuel AA' },
-        { audio: 'Amiri - Anuel ft CDobleta - Yovngchimi.mp3', imagen: 'Amiri - Anuel ft CDobleta - Yovngchimi.png', titulo: 'Amiri - Anuel ft CDobleta - Yovngchimi' },
-        { audio: 'No te olvido - J Balvin X Anuel AA.mp3', imagen: 'No te olvido - J Balvin X Anuel AA.png', titulo: 'No te olvido - J Balvin X Anuel AA' }
-        
-    ];
+        const canciones = [
+            { audio: 'Bugatti - Anuel AA.mp3', imagen: 'Bugatti - Anuel AA.png', titulo: 'Bugatti - Anuel AA' },
+            { audio: 'Londres - Anuel AA.mp3', imagen: 'Londres - Anuel AA.png', titulo: 'Londres - Anuel AA' },
+            { audio: 'Amiri - Anuel ft CDobleta - Yovngchimi.mp3', imagen: 'Amiri - Anuel ft CDobleta - Yovngchimi.png', titulo: 'Amiri - Anuel ft CDobleta - Yovngchimi' },
+            { audio: 'No te olvido - J Balvin X Anuel AA.mp3', imagen: 'No te olvido - J Balvin X Anuel AA.png', titulo: 'No te olvido - Balvin x Anuel AA' }
+        ];
 
-    let indiceActual = 0;
-    let esAleatorio = false;
-    let esBucle = false;
-    const audio = document.getElementById('reproductor');
-    const barraProgreso = document.getElementById('progreso');
+        let indiceActual = 0;
+        let esAleatorio = false;
+        const audio = document.getElementById('audio-player');
+        const barraProgreso = document.getElementById('progreso');
+        const iconPlay = document.getElementById('icon-play');
 
-    function togglePlay() {
-        const icon = document.getElementById('icon-play');
-        if (audio.paused) {
-            audio.play();
-            icon.innerText = "pause";
-        } else {
-            audio.pause();
-            icon.innerText = "play_arrow";
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                iconPlay.innerText = "pause";
+            } else {
+                audio.pause();
+                iconPlay.innerText = "play_arrow";
+            }
         }
-    }
 
-    
-    audio.ontimeupdate = function() {
-        const porcentaje = (audio.currentTime / audio.duration) * 100;
-        barraProgreso.value = porcentaje || 0;
-        
-        
-        document.getElementById('tiempo-actual').innerText = formatearTiempo(audio.currentTime);
-        document.getElementById('tiempo-total').innerText = formatearTiempo(audio.duration);
-    };
+        audio.ontimeupdate = function() {
+            if (audio.duration) {
+                const porcentaje = (audio.currentTime / audio.duration) * 100;
+                barraProgreso.value = porcentaje;
+                document.getElementById('tiempo-actual').innerText = formatearTiempo(audio.currentTime);
+                document.getElementById('tiempo-total').innerText = formatearTiempo(audio.duration);
+            }
+        };
 
-    
-    barraProgreso.oninput = function() {
-        const tiempo = (barraProgreso.value * audio.duration) / 100;
-        audio.currentTime = tiempo;
-    };
+        barraProgreso.oninput = function() {
+            audio.currentTime = (barraProgreso.value * audio.duration) / 100;
+        };
 
-    function formatearTiempo(segundos) {
-        if (isNaN(segundos)) return "0:00";
-        const min = Math.floor(segundos / 60);
-        const seg = Math.floor(segundos % 60);
-        return `${min}:${seg < 10 ? '0' : ''}${seg}`;
-    }
+        function formatearTiempo(seg) {
+            let m = Math.floor(seg / 60);
+            let s = Math.floor(seg % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
 
-    function ajustarVolumen(valor) { audio.volume = valor; }
+        function ajustarVolumen(v) { audio.volume = v; }
 
-    function activarBucle() {
-        esBucle = !esBucle;
-        document.getElementById('btn-loop').style.color = esBucle ? "#0071e3" : "#86868b";
-        audio.loop = esBucle;
-    }
+        function cambiarCancion(idx) {
+            indiceActual = idx;
+            audio.src = canciones[idx].audio;
+            document.getElementById('portada-imagen').src = canciones[idx].imagen;
+            document.getElementById('titulo-actual').innerText = canciones[idx].titulo;
+            audio.play();
+            iconPlay.innerText = "pause";
+            cargarPlaylist();
+        }
 
-    function activarAleatorio() {
-        esAleatorio = !esAleatorio;
-        document.getElementById('btn-random').style.color = esAleatorio ? "#0071e3" : "#86868b";
-    }
+        function siguiente() {
+            let next = esAleatorio ? Math.floor(Math.random() * canciones.length) : (indiceActual + 1) % canciones.length;
+            cambiarCancion(next);
+        }
 
-    function cambiarCancion(indice) {
-        indiceActual = indice;
-        document.getElementById('audio-source').src = canciones[indice].audio;
-        document.getElementById('portada-imagen').src = canciones[indice].imagen;
-        document.getElementById('titulo-actual').innerText = canciones[indice].titulo;
-        audio.load();
-        audio.play();
-        document.getElementById('icon-play').innerText = "pause";
-        cargarPlaylist();
-    }
-
-    function siguiente() {
-        if (esAleatorio) {
-            cambiarCancion(Math.floor(Math.random() * canciones.length));
-        } else {
-            indiceActual = (indiceActual + 1) % canciones.length;
+        function anterior() {
+            indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
             cambiarCancion(indiceActual);
         }
-    }
 
-    function anterior() {
-        indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
-        cambiarCancion(indiceActual);
-    }
+        function activarAleatorio() {
+            esAleatorio = !esAleatorio;
+            document.getElementById('btn-random').style.color = esAleatorio ? "#0071e3" : "#86868b";
+        }
 
-    audio.onended = function() { if (!esBucle) siguiente(); };
+        function cargarPlaylist() {
+            const lista = document.getElementById('lista-playlist');
+            lista.innerHTML = '';
+            canciones.forEach((c, i) => {
+                const div = document.createElement('div');
+                div.className = `track ${i === indiceActual ? 'active-track' : ''}`;
+                div.innerText = c.titulo;
+                div.onclick = () => cambiarCancion(i);
+                lista.appendChild(div);
+            });
+        }
 
-    function cargarPlaylist() {
-        const lista = document.getElementById('lista-playlist');
-        lista.innerHTML = '';
-        canciones.forEach((c, index) => {
-            const div = document.createElement('div');
-            div.className = `track ${index === indiceActual ? 'active-track' : ''}`;
-            div.innerText = c.titulo;
-            div.onclick = () => cambiarCancion(index);
-            lista.appendChild(div);
-        });
-    }
-<div class="top-bar">
-    <div class="search-container">
-        <button id="search-btn"><i class="fas fa-search"></i></button>
-    </div>
-</div>
-
-<div class="player-container">
-    <div class="cover-art" id="cover-link">
-        <img src="Bugatti - Anuel AA.png" id="current-cover" alt="Portada">
-    </div>
-
-    <div class="controls-main">
-        <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
-        <button id="play-pause-btn"><i class="fas fa-play"></i></button>
-        <button id="next-btn"><i class="fas fa-step-forward"></i></button>
-        
-        <div class="extra-controls">
-            <button id="repeat-btn" data-mode="none"><i class="fas fa-redo"></i></button>
-            <div class="volume-slider-container">
-                <input type="range" id="volumen" min="0" max="1" step="0.1" value="1">
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="playlist-box" id="playlist-container">
-    <ul id="playlist-list">
-        </ul>
-</div>
-    window.onload = cargarPlaylist;
-    
-    const audio = document.getElementById('audio-player'); // Asegúrate que tu etiqueta <audio> tenga este ID
-const cover = document.getElementById('current-cover');
-const repeatBtn = document.getElementById('repeat-btn');
-const volumeSlider = document.getElementById('volumen');
-
-// 1. Cargar portada de inmediato
-window.addEventListener('DOMContentLoaded', () => {
-    // Aquí puedes llamar a tu función que carga la primera canción
-    console.log("Sistema listo, portada cargada.");
-});
-
-// 2. Click en portada para Play/Pausa
-cover.addEventListener('click', () => {
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.pause();
-    }
-});
-
-// 3. Control de Volumen
-volumeSlider.addEventListener('input', (e) => {
-    audio.volume = e.target.value;
-});
-
-// 4. Lógica de Repetición (Bucle vs Una vez)
-repeatBtn.addEventListener('click', () => {
-    const currentMode = repeatBtn.getAttribute('data-mode');
-
-    if (currentMode === 'none') {
-        // Activar Bucle (Loop)
-        repeatBtn.setAttribute('data-mode', 'loop');
-        repeatBtn.style.color = '#1db954'; // Color de activo
-        audio.loop = true;
-    } else if (currentMode === 'loop') {
-        // Activar Repetir una sola vez
-        repeatBtn.setAttribute('data-mode', 'once');
-        repeatBtn.innerHTML = '<i class="fas fa-redo-alt"></i><span style="font-size:10px">1</span>';
-        audio.loop = false;
-        // Aquí podrías agregar lógica para que se detenga tras sonar
-    } else {
-        // Desactivar todo
-        repeatBtn.setAttribute('data-mode', 'none');
-        repeatBtn.style.color = 'white';
-        repeatBtn.innerHTML = '<i class="fas fa-redo"></i>';
-        audio.loop = false;
-    }
-});
+        audio.onended = siguiente;
+        window.onload = cargarPlaylist;
     </script>
-
 </body>
 </html>
