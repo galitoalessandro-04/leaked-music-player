@@ -118,26 +118,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 15px; /* Ajustado para que quepa el nuevo botón */
             margin-top: 30px;
         }
 
         .control-btn {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--bg-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 6px 6px 12px var(--neu-shadow), 
-                       -6px -6px 12px var(--neu-white);
+            box-shadow: 5px 5px 10px var(--neu-shadow), 
+                       -5px -5px 10px var(--neu-white);
             cursor: pointer;
+            transition: color 0.3s;
         }
 
         #icon-play-container {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             background: #2b2d31;
             color: white;
         }
@@ -152,6 +153,7 @@
 
         #volumen { width: 100px; accent-color: var(--accent-blue); }
 
+        /* PLAYLIST CON SCROLL OCULTO */
         .playlist {
             margin-top: 30px;
             background: var(--bg-color);
@@ -161,6 +163,14 @@
             padding: 10px;
             max-height: 200px;
             overflow-y: auto;
+            /* Ocultar barra en navegadores modernos */
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+
+        /* Ocultar barra en Chrome, Safari y Edge */
+        .playlist::-webkit-scrollbar {
+            display: none;
         }
 
         .track {
@@ -212,6 +222,9 @@
             </div>
 
             <div class="controls-row">
+                <div class="control-btn" id="btn-repeat" onclick="activarRepeticion()">
+                    <span class="material-icons">repeat</span>
+                </div>
                 <div class="control-btn" id="btn-random" onclick="activarAleatorio()">
                     <span class="material-icons">shuffle</span>
                 </div>
@@ -236,7 +249,6 @@
     </div>
 
     <script>
-        // Nombres corregidos según tu foto de la carpeta
         const canciones = [
             { audio: 'Bugatti - Anuel AA.mp3', imagen: 'Bugatti - Anuel AA.png', titulo: 'Bugatti', artista: 'Anuel AA' },
             { audio: 'Londres - Anuel AA.mp3', imagen: 'Londres - Anuel AA.png', titulo: 'Londres', artista: 'Anuel AA' },
@@ -246,6 +258,7 @@
 
         let indiceActual = 0;
         let esAleatorio = false;
+        let esRepeticion = false;
         const audio = document.getElementById('audio-player');
         const barraProgreso = document.getElementById('progreso');
         const iconPlay = document.getElementById('icon-play');
@@ -293,6 +306,11 @@
         }
 
         function siguiente() {
+            // Si la repetición está activada, vuelve a cargar la misma canción
+            if (esRepeticion) {
+                cambiarCancion(indiceActual);
+                return;
+            }
             let next = esAleatorio ? Math.floor(Math.random() * canciones.length) : (indiceActual + 1) % canciones.length;
             cambiarCancion(next);
         }
@@ -307,6 +325,11 @@
             document.getElementById('btn-random').style.color = esAleatorio ? "#0071e3" : "#777";
         }
 
+        function activarRepeticion() {
+            esRepeticion = !esRepeticion;
+            document.getElementById('btn-repeat').style.color = esRepeticion ? "#0071e3" : "#777";
+        }
+
         function cargarPlaylist() {
             const lista = document.getElementById('lista-playlist');
             lista.innerHTML = '';
@@ -319,7 +342,16 @@
             });
         }
 
-        audio.onended = siguiente;
+        // Esta función maneja qué pasa cuando termina la canción
+        audio.onended = function() {
+            if (esRepeticion) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                siguiente();
+            }
+        };
+
         window.onload = cargarPlaylist;
     </script>
 </body>
