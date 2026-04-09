@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* BARRA NEGRA SUPERIOR (NAVBAR) */
+        /* BARRA NEGRA SUPERIOR (NAVBAR) - FUENTE PROTEGIDA */
         .navbar {
             width: 100%;
             background-color: #000000;
@@ -94,7 +94,7 @@
             gap: 20px;
         }
 
-        /* SECCIONES NEUMÓRFICAS */
+        /* SECCIONES NEUMÓRFICAS CON MOVIMIENTO AL PASAR EL CURSOR */
         .neu-block {
             background: var(--bg-color);
             border-radius: 20px;
@@ -102,7 +102,14 @@
             box-shadow: 10px 10px 20px var(--neu-shadow), 
                         -10px -10px 20px var(--neu-white);
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        }
+
+        /* EL MOVIMIENTO QUE TE GUSTÓ */
+        .neu-block:hover {
+            transform: translateY(-8px);
+            box-shadow: 15px 15px 30px var(--neu-shadow), 
+                        -15px -15px 30px var(--neu-white);
         }
 
         /* FAVORITOS */
@@ -163,7 +170,7 @@
             box-shadow: 5px 5px 10px var(--neu-shadow), -5px -5px 10px var(--neu-white);
         }
 
-        /* PLAYLIST FUNCIONAL */
+        /* PLAYLIST FUNCIONAL CON COLORES DEL REPRODUCTOR */
         .playlist-block ul { list-style: none; padding: 0; margin: 0; }
         
         .track-item {
@@ -183,6 +190,7 @@
 
         .track-left { display: flex; align-items: center; gap: 12px; }
 
+        /* Estilo del círculo de play/pausa con los colores del reproductor */
         .play-icon-circle {
             width: 30px;
             height: 30px;
@@ -192,12 +200,14 @@
             align-items: center;
             justify-content: center;
             box-shadow: 3px 3px 6px var(--neu-shadow), -3px -3px 6px var(--neu-white);
-            color: #777;
+            color: var(--accent-blue); /* Color azul del reproductor */
+            transition: 0.2s;
         }
 
+        /* Efecto cuando está sonando (hundido y vibrante) */
         .playing .play-icon-circle {
-            color: var(--accent-blue);
             box-shadow: inset 2px 2px 5px var(--neu-shadow), inset -2px -2px 5px var(--neu-white);
+            color: #00ff00; /* Verde para indicar que está activo */
         }
 
         .track-text h5 { margin: 0; font-size: 14px; color: var(--text-dark); }
@@ -215,6 +225,7 @@
             justify-content: center;
             border: none;
             cursor: pointer;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
         }
 
         audio { display: none; }
@@ -306,7 +317,6 @@
         let currentTrackItem = null;
 
         function playThis(file, title, artist, img, element) {
-            // Si ya está sonando esta misma canción, pausamos
             if (audio.src.includes(file)) {
                 if (audio.paused) {
                     audio.play();
@@ -316,21 +326,16 @@
                     updateIcons(false, element);
                 }
             } else {
-                // Nueva canción
                 audio.src = file;
                 audio.play();
-                
-                // Actualizar info del reproductor superior
                 document.getElementById('main-player-title').innerText = title;
                 document.getElementById('main-player-artist').innerText = artist;
                 document.getElementById('main-player-img').src = img;
-                
                 updateIcons(true, element);
             }
         }
 
         function updateIcons(isPlaying, element) {
-            // Resetear todos los items
             document.querySelectorAll('.track-item').forEach(item => {
                 item.classList.remove('playing');
                 item.querySelector('.material-icons').innerText = "play_arrow";
@@ -351,7 +356,6 @@
             event.stopPropagation();
             if (audio.src === "" || audio.paused) {
                 if (audio.src === "") {
-                    // Si no hay nada cargado, cargamos la primera por defecto
                     playThis('Bugatti - Anuel AA.mp3', 'Bugatti', 'Anuel AA', 'Bugatti - Anuel AA.png', document.querySelector('.track-item'));
                 } else {
                     audio.play();
@@ -371,7 +375,10 @@
 
         audio.onended = () => {
             mainPlayIcon.innerText = "play_arrow";
-            if (currentTrackItem) currentTrackItem.querySelector('.material-icons').innerText = "play_arrow";
+            if (currentTrackItem) {
+                currentTrackItem.classList.remove('playing');
+                currentTrackItem.querySelector('.material-icons').innerText = "play_arrow";
+            }
         };
     </script>
 </body>
