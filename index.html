@@ -4,444 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaked Music - Home</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #e0e5ec;
-            --neu-white: #ffffff;
-            --neu-shadow: #a3b1c6;
-            --accent-blue: #0071e3;
-            --text-dark: #44474a;
+            --bg: #e0e0e0;
+            --shadow-light: #ffffff;
+            --shadow-dark: #bebebe;
+            --accent: #2196f3;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
-        }
-
-        /* BARRA NEGRA SUPERIOR (NAVBAR) */
-        .navbar {
-            width: 100%;
-            background-color: #000000;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            box-sizing: border-box;
-        }
-
-        .nav-logo {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .search-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-container input {
-            background: #222;
-            border: none;
-            padding: 8px 35px 8px 15px;
-            border-radius: 20px;
-            color: white;
-            outline: none;
-            width: 200px;
-        }
-
-        .search-container .fa-search {
-            position: absolute;
-            right: 12px;
-            color: #888;
-        }
-
-        /* CONTENEDOR PRINCIPAL SIMÉTRICO */
-        .main-content {
-            display: flex;
-            margin-top: 80px; /* Separación de la navbar */
-            margin-bottom: 50px;
-            max-width: 1200px; /* Ancho máximo para mantener simetría */
-            width: 90%; /* Se adapta a la pantalla */
-            gap: 20px; /* Separación entre bloques */
-            box-sizing: border-box;
-        }
-
-        /* COLUMNA IZQUIERDA Y CENTRAL (GRID PRINCIPAL) */
-        .grid-container {
-            flex: 2; /* Ocupa más espacio */
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* BLOQUES SUPERIORES */
-        .blocks-top {
-            display: flex;
-            gap: 20px;
-        }
-
-        /* SECCIONES NEUMÓRFICAS BÁSICAS */
-        .neu-block {
-            background: var(--bg-color);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 10px 10px 20px var(--neu-shadow), 
-                        -10px -10px 20px var(--neu-white);
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        /* BLOQUE 1 (FAVORITOS) */
-        .favoritos-block {
-            flex: 2;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .favoritos-mosaic {
-            width: 100px;
-            height: 100px;
-            border-radius: 15px;
-            object-fit: cover;
-            box-shadow: 5px 5px 10px var(--neu-shadow), 
-                        -5px -5px 10px var(--neu-white);
-        }
-        .favoritos-text {
-            color: var(--text-dark);
-        }
-        .favoritos-text h2 { margin: 0; font-size: 24px; font-weight: 700; }
-        .favoritos-text p { margin: 2px 0 10px 0; color: #777; font-size: 14px; }
-        .play-all-btn {
-            background: #2b2d31;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-        }
-
-        /* BLOQUE 2 (ARTISTA DESTACADO) */
-        .artista-block {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .artista-foto {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-            box-shadow: inset 5px 5px 10px var(--neu-shadow), 
-                        inset -5px -5px 10px var(--neu-white);
-        }
-        .artista-block p { margin: 0; color: #777; font-size: 12px; }
-        .artista-block h3 { margin: 2px 0 8px 0; font-size: 16px; color: var(--text-dark); }
-        .follow-btn {
-            background: var(--bg-color);
-            border: none;
-            padding: 5px 12px;
-            border-radius: 15px;
-            cursor: pointer;
-            box-shadow: 3px 3px 6px var(--neu-shadow), 
-                        -3px -3px 6px var(--neu-white);
-            color: #777;
-            font-size: 12px;
-        }
-
-        /* BLOQUE INFERIOR (NUEVOS LEAKS) */
-        .leaks-block {
-            flex: 1;
-        }
-        .leaks-title {
-            margin: 0 0 15px 0;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-        .leaks-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-        .leak-card {
-            text-align: center;
-        }
-        .leak-foto {
-            width: 100%;
-            height: 100px;
-            border-radius: 15px;
-            object-fit: cover;
-            margin-bottom: 8px;
-            box-shadow: 5px 5px 10px var(--neu-shadow), 
-                        -5px -5px 10px var(--neu-white);
-        }
-        .leak-card h4 { margin: 0; font-size: 14px; color: var(--text-dark); }
-        .leak-card p { margin: 1px 0 0 0; color: #777; font-size: 11px; }
-
-        /* COLUMNA DERECHA (REPRODUCTOR Y PLAYLIST) */
-        .sidebar-right {
-            flex: 1; /* Ocupa menos espacio */
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* BLOQUE 3 (REPRODUCTOR ACTIVO) */
-        .player-active {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-        }
-        .player-active:hover {
-            box-shadow: 5px 5px 10px var(--neu-shadow), 
-                        -5px -5px 10px var(--neu-white);
-            transform: translateY(-2px);
-        }
-        .player-foto {
-            width: 100%;
-            height: 120px;
-            border-radius: 15px;
-            object-fit: cover;
-            margin-bottom: 10px;
-            box-shadow: 5px 5px 10px var(--neu-shadow), 
-                        -5px -5px 10px var(--neu-white);
-        }
-        .player-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .player-text h4 { margin: 0; font-size: 16px; color: var(--text-dark); }
-        .player-text p { margin: 1px 0 0 0; color: #777; font-size: 13px; }
-        .player-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #2b2d31;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-        .player-btn:active {
-            box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5);
-            transform: scale(0.95);
-        }
-
-        /* BLOQUE 4 (LISTA DE CANCIONES SIGUIENTES) */
-        .playlist-block {
-            flex: 1;
-            padding: 15px;
-        }
-        .playlist-block ul {
-            list-style: none;
-            padding: 0;
             margin: 0;
         }
-        .track-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+
+        .container {
+            display: grid;
+            grid-template-columns: 300px 400px;
+            gap: 30px;
+            padding: 20px;
         }
-        .track-item:last-child {
-            border-bottom: none;
+
+        /* Tarjeta Principal (Acceso al Reproductor) */
+        .main-card {
+            background: var(--bg);
+            border-radius: 30px;
+            box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
-        .track-left {
+
+        .main-card:active {
+            box-shadow: inset 10px 10px 20px var(--shadow-dark), inset -10px -10px 20px var(--shadow-light);
+            transform: scale(0.98);
+        }
+
+        .main-card img {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Playlist Neumórfica */
+        .playlist-card {
+            background: var(--bg);
+            border-radius: 30px;
+            box-shadow: 20px 20px 60px var(--shadow-dark), -20px -20px 60px var(--shadow-light);
+            padding: 25px;
+        }
+
+        .playlist-title {
+            color: #444;
+            margin-bottom: 20px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--text-dark);
-        }
-        .track-text h5 { margin: 0; font-size: 14px; }
-        .track-text p { margin: 1px 0 0 0; color: #777; font-size: 11px; }
-        .track-actions {
-            color: #aaa;
-            cursor: pointer;
         }
 
-        /* AUDIO ELEMENTO */
-        audio { display: none; }
+        .song-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .song-item:hover {
+            box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+        }
+
+        .song-item.active {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .song-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .song-name {
+            display: block;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .song-artist {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .play-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            border-radius: 50%;
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+            color: var(--accent);
+        }
+
+        .playing-animation {
+            display: none;
+            width: 15px;
+            height: 15px;
+        }
+
+        .active .playing-animation { display: block; }
+        .active .fa-play { display: none; }
+
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="nav-logo">LEAKED MUSIC</div>
-        <div class="search-container">
-            <input type="text" placeholder="Buscar música...">
-            <i class="fas fa-search"></i>
-        </div>
+<div class="container">
+    <div class="main-card" onclick="irAlReproductor()">
+        <img src="Amiri - Anuel ft CDobleta.png" alt="Amiri Cover">
+        <h2>Reproductor Pro</h2>
+        <p style="color: #666;">Haz clic para pantalla completa</p>
     </div>
 
-    <div class="main-content">
+    <div class="playlist-card">
+        <div class="playlist-title">
+            <i class="fas fa-list-ul"></i> Mi Playlist
+        </div>
         
-        <div class="grid-container">
-            
-            <div class="blocks-top">
-                <div class="neu-block favoritos-block">
-                    <img src="Bugatti - Anuel AA.png" alt="Mosaico" class="favoritos-mosaic">
-                    <div class="favoritos-text">
-                        <h2>tus favoritos en repeat</h2>
-                        <p>Playlist</p>
-                        <button class="play-all-btn">
-                            <i class="material-icons" style="font-size: 18px;">play_arrow</i>
-                            Reproducir Todo
-                        </button>
-                    </div>
-                </div>
-
-                <div class="neu-block artista-block">
-                    <img src="No te olvido - J Balvin X Anuel AA.png" alt="J Balvin" class="artista-foto">
-                    <p>Artista Destacado</p>
-                    <h3>J Balvin</h3>
-                    <button class="follow-btn">Follow</button>
-                </div>
+        <div id="playlist-container">
             </div>
-
-            <div class="neu-block leaks-block">
-                <h3 class="leaks-title">Nuevos Leaks</h3>
-                <div class="leaks-grid">
-                    <div class="leak-card">
-                        <img src="Bugatti - Anuel AA.png" alt="Bugatti" class="leak-foto">
-                        <h4>Bugatti</h4>
-                        <p>Anuel AA</p>
-                    </div>
-                    <div class="leak-card">
-                        <img src="Londres - Anuel AA.png" alt="Londres" class="leak-foto">
-                        <h4>Londres</h4>
-                        <p>Anuel AA</p>
-                    </div>
-                    <div class="leak-card">
-                        <img src="Amiri - Anuel ft CDobleta - Yovngchimi.png" alt="Amiri" class="leak-foto">
-                        <h4>Amiri</h4>
-                        <p>Anuel AA</p>
-                    </div>
-                    <div class="leak-card">
-                        <img src="No te olvido - J Balvin X Anuel AA.png" alt="No te olvido" class="leak-foto">
-                        <h4>No te olvido</h4>
-                        <p>Anuel AA</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="sidebar-right">
-            
-            <div class="neu-block player-active" onclick="abrirReproductor()">
-                <img src="Bugatti - Anuel AA.png" alt="Reproductor" class="player-foto">
-                <div class="player-info">
-                    <div class="player-text">
-                        <h4>Bugatti</h4>
-                        <p>Anuel AA</p>
-                    </div>
-                    <button class="player-btn" onclick="togglePlayPrincipal(event)">
-                        <i class="material-icons" id="main-play-icon" style="font-size: 24px;">play_arrow</i>
-                    </button>
-                </div>
-                <audio id="audio-home">
-                    <source src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
-                </audio>
-            </div>
-
-            <div class="neu-block playlist-block">
-                <ul>
-                    <li class="track-item">
-                        <div class="track-left">
-                            <i class="material-icons" style="font-size: 18px; color: #777;">play_arrow</i>
-                            <div class="track-text">
-                                <h5>Bugatti</h5>
-                                <p>Anuel AA</p>
-                            </div>
-                        </div>
-                        <div class="track-actions">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                    </li>
-                    <li class="track-item">
-                        <div class="track-left">
-                            <i class="material-icons" style="font-size: 18px; color: #777;">pause</i>
-                            <div class="track-text">
-                                <h5>Londres</h5>
-                                <p>Anuel AA</p>
-                            </div>
-                        </div>
-                        <div class="track-actions">
-                            <i class="far fa-heart"></i>
-                        </div>
-                    </li>
-                    <li class="track-item">
-                        <div class="track-left">
-                            <i class="material-icons" style="font-size: 18px; color: #777;">play_arrow</i>
-                            <div class="track-text">
-                                <h5>No te olvido</h5>
-                                <p>Anuel AA</p>
-                            </div>
-                        </div>
-                        <div class="track-actions">
-                            <i class="far fa-heart"></i>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
     </div>
+</div>
 
-    <script>
-        const audioHome = document.getElementById('audio-home');
-        const mainPlayIcon = document.getElementById('main-play-icon');
+<audio id="main-audio"></audio>
 
-        // Función 1: Reproducir el tema actual desde el botón
-        function togglePlayPrincipal(event) {
-            // event.stopPropagation() evita que el clic en el botón active el cuadro blanco
-            event.stopPropagation(); 
-            if (audioHome.paused) {
-                audioHome.play();
-                mainPlayIcon.innerText = "pause";
-            } else {
-                audioHome.pause();
-                mainPlayIcon.innerText = "play_arrow";
-            }
-        }
+<script>
+    const songs = [
+        { name: "Amiri", artist: "Anuel ft CDobleta - Yovngchimi", src: "Amiri - Anuel ft CDobleta - Yovngchimi.mp3" },
+        { name: "Bugatti", artist: "Anuel AA", src: "Bugatti - Anuel AA.mp3" },
+        { name: "Londres", artist: "Anuel AA", src: "Londres - Anuel AA.mp3" },
+        { name: "No te olvido", artist: "J Balvin X Anuel AA", src: "No te olvido - J Balvin X Anuel AA.mp3" }
+    ];
 
-        // Función 2: Al hacer clic en el cuadro blanco, abre el reproductor
-        function abrirReproductor() {
-            // Reemplaza esto con el link a tu reproductor.html
-            window.location.href = "reproductor.html"; 
-        }
+    const playlistContainer = document.getElementById('playlist-container');
+    const audioPlayer = document.getElementById('main-audio');
 
-        // Si la canción termina en home, resetea el icono
-        audioHome.onended = function() {
-            mainPlayIcon.innerText = "play_arrow";
-        };
-    </script>
+    // Cargar Playlist
+    songs.forEach((song, index) => {
+        const div = document.createElement('div');
+        div.className = 'song-item';
+        div.onclick = () => reproducirEsta(index, div);
+        
+        div.innerHTML = `
+            <div class="play-icon">
+                <i class="fas fa-play"></i>
+                <div class="playing-animation">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+            </div>
+            <div class="song-info">
+                <span class="song-name">${song.name}</span>
+                <span class="song-artist">${song.artist}</span>
+            </div>
+        `;
+        playlistContainer.appendChild(div);
+    });
+
+    function reproducirEsta(index, element) {
+        // Quitar estado activo de otros
+        document.querySelectorAll('.song-item').forEach(item => item.classList.remove('active'));
+        
+        // Activar este
+        element.classList.add('active');
+        
+        // Reproducir audio
+        audioPlayer.src = songs[index].src;
+        audioPlayer.play();
+    }
+
+    function irAlReproductor() {
+        // Navega al archivo que renombraste
+        window.location.href = "reproductor.html";
+    }
+</script>
+
 </body>
 </html>
