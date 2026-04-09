@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaked Music</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #e0e5ec;
+            --neu-white: #ffffff;
+            --neu-shadow: #a3b1c6;
+            --accent-blue: #0071e3;
+            --text-dark: #44474a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color); 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* BARRA NEGRA CON BUSCADOR */
+        .navbar {
+            width: 100%;
+            background-color: #000000;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            background: #222;
+            border: none;
+            padding: 8px 35px 8px 15px;
+            border-radius: 20px;
+            color: white;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-container .fa-search {
+            position: absolute;
+            right: 12px;
+            color: #888;
+        }
+
+        /* CONTENEDOR NEUMÓRFICO */
+        .container {
+            display: flex;
+            margin-top: 100px;
+            margin-bottom: 50px;
+            background: var(--bg-color); 
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 20px 20px 60px var(--neu-shadow), 
+                       -20px -20px 60px var(--neu-white);
+            max-width: 900px;
+            width: 90%;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .left-side img {
+            width: 350px;
+            height: 350px;
+            border-radius: 30px;
+            object-fit: cover;
+            box-shadow: 10px 10px 20px var(--neu-shadow), 
+                       -10px -10px 20px var(--neu-white);
+            cursor: pointer;
+        }
+
+        .right-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+        }
+
+        .info-tema h2 { margin: 0; font-size: 28px; font-weight: 700; color: #333; }
+        .info-tema p { margin: 5px 0 20px 0; color: #777; font-size: 18px; }
+
+        #progreso {
+            width: 100%;
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+            height: 6px;
+        }
+
+        .controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Ajustado para que quepa el nuevo botón */
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 5px 5px 10px var(--neu-shadow), 
+                       -5px -5px 10px var(--neu-white);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        #icon-play-container {
+            width: 65px;
+            height: 65px;
+            background: #2b2d31;
+            color: white;
+        }
+
+        .volume-box {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        #volumen { width: 100px; accent-color: var(--accent-blue); }
+
+        /* PLAYLIST CON SCROLL OCULTO */
+        .playlist {
+            margin-top: 30px;
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow: inset 6px 6px 12px var(--neu-shadow), 
+                        inset -6px -6px 12px var(--neu-white);
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            /* Ocultar barra en navegadores modernos */
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+
+        /* Ocultar barra en Chrome, Safari y Edge */
+        .playlist::-webkit-scrollbar {
+            display: none;
+        }
+
+        .track {
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .active-track {
+            background: rgba(0, 113, 227, 0.1);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="nav-logo">LEAKED MUSIC</div>
+        <div class="search-container">
+            <input type="text" placeholder="Buscar música...">
+            <i class="fas fa-search"></i>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left-side">
+            <img id="portada-imagen" src="Bugatti - Anuel AA.png" alt="Portada" onclick="togglePlay()">
+        </div>
+
+        <div class="right-side">
+            <div class="info-tema">
+                <h2 id="titulo-actual">Bugatti</h2>
+                <p id="artista-actual">Anuel AA</p>
+                <audio id="audio-player">
+                    <source id="audio-source" src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+
+            <div>
+                <input type="range" id="progreso" value="0" min="0" max="100">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #777; margin-top: 8px;">
+                    <span id="tiempo-actual">0:00</span>
+                    <span id="tiempo-total">0:00</span>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="control-btn" id="btn-repeat" onclick="activarRepeticion()">
+                    <span class="material-icons">repeat</span>
+                </div>
+                <div class="control-btn" id="btn-random" onclick="activarAleatorio()">
+                    <span class="material-icons">shuffle</span>
+                </div>
+                <div class="control-btn" onclick="anterior()">
+                    <span class="material-icons">skip_previous</span>
+                </div>
+                <div class="control-btn" id="icon-play-container" onclick="togglePlay()">
+                    <span class="material-icons" id="icon-play" style="font-size: 40px;">play_arrow</span>
+                </div>
+                <div class="control-btn" onclick="siguiente()">
+                    <span class="material-icons">skip_next</span>
+                </div>
+            </div>
+            
+            <div class="volume-box">
+                <span class="material-icons" style="font-size: 18px; color: #777;">volume_up</span>
+                <input type="range" id="volumen" min="0" max="1" step="0.1" value="1" oninput="ajustarVolumen(this.value)">
+            </div>
+
+            <div class="playlist" id="lista-playlist"></div>
+        </div>
+    </div>
+
+    <script>
+        const canciones = [
+            { audio: 'Bugatti - Anuel AA.mp3', imagen: 'Bugatti - Anuel AA.png', titulo: 'Bugatti', artista: 'Anuel AA' },
+            { audio: 'Londres - Anuel AA.mp3', imagen: 'Londres - Anuel AA.png', titulo: 'Londres', artista: 'Anuel AA' },
+            { audio: 'Amiri - Anuel ft CDobleta - Yovngchimi.mp3', imagen: 'Amiri - Anuel ft CDobleta - Yovngchimi.png', titulo: 'Amiri', artista: 'Anuel ft CDobleta - Yovngchimi' },
+            { audio: 'No te olvido - J Balvin X Anuel AA.mp3', imagen: 'No te olvido - J Balvin X Anuel AA.png', titulo: 'No te olvido', artista: 'J Balvin x Anuel AA' }
+        ];
+
+        let indiceActual = 0;
+        let esAleatorio = false;
+        let esRepeticion = false;
+        const audio = document.getElementById('audio-player');
+        const barraProgreso = document.getElementById('progreso');
+        const iconPlay = document.getElementById('icon-play');
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                iconPlay.innerText = "pause";
+            } else {
+                audio.pause();
+                iconPlay.innerText = "play_arrow";
+            }
+        }
+
+        audio.ontimeupdate = function() {
+            if (audio.duration) {
+                const porcentaje = (audio.currentTime / audio.duration) * 100;
+                barraProgreso.value = porcentaje;
+                document.getElementById('tiempo-actual').innerText = formatearTiempo(audio.currentTime);
+                document.getElementById('tiempo-total').innerText = formatearTiempo(audio.duration);
+            }
+        };
+
+        barraProgreso.oninput = function() {
+            audio.currentTime = (barraProgreso.value * audio.duration) / 100;
+        };
+
+        function formatearTiempo(seg) {
+            let m = Math.floor(seg / 60);
+            let s = Math.floor(seg % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function ajustarVolumen(v) { audio.volume = v; }
+
+        function cambiarCancion(idx) {
+            indiceActual = idx;
+            audio.src = canciones[idx].audio;
+            document.getElementById('portada-imagen').src = canciones[idx].imagen;
+            document.getElementById('titulo-actual').innerText = canciones[idx].titulo;
+            document.getElementById('artista-actual').innerText = canciones[idx].artista;
+            audio.play();
+            iconPlay.innerText = "pause";
+            cargarPlaylist();
+        }
+
+        function siguiente() {
+            // Si la repetición está activada, vuelve a cargar la misma canción
+            if (esRepeticion) {
+                cambiarCancion(indiceActual);
+                return;
+            }
+            let next = esAleatorio ? Math.floor(Math.random() * canciones.length) : (indiceActual + 1) % canciones.length;
+            cambiarCancion(next);
+        }
+
+        function anterior() {
+            indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
+            cambiarCancion(indiceActual);
+        }
+
+        function activarAleatorio() {
+            esAleatorio = !esAleatorio;
+            document.getElementById('btn-random').style.color = esAleatorio ? "#0071e3" : "#777";
+        }
+
+        function activarRepeticion() {
+            esRepeticion = !esRepeticion;
+            document.getElementById('btn-repeat').style.color = esRepeticion ? "#0071e3" : "#777";
+        }
+
+        function cargarPlaylist() {
+            const lista = document.getElementById('lista-playlist');
+            lista.innerHTML = '';
+            canciones.forEach((c, i) => {
+                const div = document.createElement('div');
+                div.className = `track ${i === indiceActual ? 'active-track' : ''}`;
+                div.innerText = `${c.titulo} - ${c.artista}`;
+                div.onclick = () => cambiarCancion(i);
+                lista.appendChild(div);
+            });
+        }
+
+        // Esta función maneja qué pasa cuando termina la canción
+        audio.onended = function() {
+            if (esRepeticion) {
+                audio.currentTime = 0;
+                audio.play();
+            } else {
+                siguiente();
+            }
+        };
+
+        window.onload = cargarPlaylist;
+    </script>
+</body>
+</html>

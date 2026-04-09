@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaked Music</title>
+    <title>Leaked Music - Home</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
         :root {
             --bg-color: #e0e5ec;
@@ -19,7 +18,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color); 
+            background-color: var(--bg-color);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             display: flex;
             flex-direction: column;
@@ -27,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* BARRA NEGRA CON BUSCADOR */
+        /* BARRA NEGRA SUPERIOR (NAVBAR) */
         .navbar {
             width: 100%;
             background-color: #000000;
@@ -71,122 +70,226 @@
             color: #888;
         }
 
-        /* CONTENEDOR NEUMÓRFICO */
-        .container {
+        /* CONTENEDOR PRINCIPAL SIMÉTRICO */
+        .main-content {
             display: flex;
-            margin-top: 100px;
+            margin-top: 80px; /* Separación de la navbar */
             margin-bottom: 50px;
-            background: var(--bg-color); 
-            padding: 40px;
-            border-radius: 40px;
-            box-shadow: 20px 20px 60px var(--neu-shadow), 
-                       -20px -20px 60px var(--neu-white);
-            max-width: 900px;
-            width: 90%;
-            gap: 40px;
-            align-items: flex-start;
+            max-width: 1200px; /* Ancho máximo para mantener simetría */
+            width: 90%; /* Se adapta a la pantalla */
+            gap: 20px; /* Separación entre bloques */
+            box-sizing: border-box;
         }
 
-        .left-side img {
-            width: 350px;
-            height: 350px;
-            border-radius: 30px;
-            object-fit: cover;
+        /* COLUMNA IZQUIERDA Y CENTRAL (GRID PRINCIPAL) */
+        .grid-container {
+            flex: 2; /* Ocupa más espacio */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* BLOQUES SUPERIORES */
+        .blocks-top {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SECCIONES NEUMÓRFICAS BÁSICAS */
+        .neu-block {
+            background: var(--bg-color);
+            border-radius: 20px;
+            padding: 20px;
             box-shadow: 10px 10px 20px var(--neu-shadow), 
-                       -10px -10px 20px var(--neu-white);
-            cursor: pointer;
+                        -10px -10px 20px var(--neu-white);
+            box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
-        .right-side {
+        /* BLOQUE 1 (FAVORITOS) */
+        .favoritos-block {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .favoritos-mosaic {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 5px 5px 10px var(--neu-shadow), 
+                        -5px -5px 10px var(--neu-white);
+        }
+        .favoritos-text {
+            color: var(--text-dark);
+        }
+        .favoritos-text h2 { margin: 0; font-size: 24px; font-weight: 700; }
+        .favoritos-text p { margin: 2px 0 10px 0; color: #777; font-size: 14px; }
+        .play-all-btn {
+            background: #2b2d31;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        /* BLOQUE 2 (ARTISTA DESTACADO) */
+        .artista-block {
             flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .artista-foto {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: inset 5px 5px 10px var(--neu-shadow), 
+                        inset -5px -5px 10px var(--neu-white);
+        }
+        .artista-block p { margin: 0; color: #777; font-size: 12px; }
+        .artista-block h3 { margin: 2px 0 8px 0; font-size: 16px; color: var(--text-dark); }
+        .follow-btn {
+            background: var(--bg-color);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 3px 3px 6px var(--neu-shadow), 
+                        -3px -3px 6px var(--neu-white);
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* BLOQUE INFERIOR (NUEVOS LEAKS) */
+        .leaks-block {
+            flex: 1;
+        }
+        .leaks-title {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            font-weight: 700;
             color: var(--text-dark);
         }
-
-        .info-tema h2 { margin: 0; font-size: 28px; font-weight: 700; color: #333; }
-        .info-tema p { margin: 5px 0 20px 0; color: #777; font-size: 18px; }
-
-        #progreso {
+        .leaks-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .leak-card {
+            text-align: center;
+        }
+        .leak-foto {
             width: 100%;
-            cursor: pointer;
-            accent-color: var(--accent-blue);
-            height: 6px;
-        }
-
-        .controls-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px; /* Ajustado para que quepa el nuevo botón */
-            margin-top: 30px;
-        }
-
-        .control-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: var(--bg-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 8px;
             box-shadow: 5px 5px 10px var(--neu-shadow), 
-                       -5px -5px 10px var(--neu-white);
-            cursor: pointer;
-            transition: color 0.3s;
+                        -5px -5px 10px var(--neu-white);
+        }
+        .leak-card h4 { margin: 0; font-size: 14px; color: var(--text-dark); }
+        .leak-card p { margin: 1px 0 0 0; color: #777; font-size: 11px; }
+
+        /* COLUMNA DERECHA (REPRODUCTOR Y PLAYLIST) */
+        .sidebar-right {
+            flex: 1; /* Ocupa menos espacio */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        #icon-play-container {
-            width: 65px;
-            height: 65px;
+        /* BLOQUE 3 (REPRODUCTOR ACTIVO) */
+        .player-active {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+        }
+        .player-active:hover {
+            box-shadow: 5px 5px 10px var(--neu-shadow), 
+                        -5px -5px 10px var(--neu-white);
+            transform: translateY(-2px);
+        }
+        .player-foto {
+            width: 100%;
+            height: 120px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 5px 5px 10px var(--neu-shadow), 
+                        -5px -5px 10px var(--neu-white);
+        }
+        .player-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .player-text h4 { margin: 0; font-size: 16px; color: var(--text-dark); }
+        .player-text p { margin: 1px 0 0 0; color: #777; font-size: 13px; }
+        .player-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             background: #2b2d31;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .player-btn:active {
+            box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5);
+            transform: scale(0.95);
         }
 
-        .volume-box {
-            margin-top: 25px;
+        /* BLOQUE 4 (LISTA DE CANCIONES SIGUIENTES) */
+        .playlist-block {
+            flex: 1;
+            padding: 15px;
+        }
+        .playlist-block ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .track-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .track-item:last-child {
+            border-bottom: none;
+        }
+        .track-left {
             display: flex;
             align-items: center;
             gap: 10px;
-            justify-content: flex-end;
+            color: var(--text-dark);
         }
-
-        #volumen { width: 100px; accent-color: var(--accent-blue); }
-
-        /* PLAYLIST CON SCROLL OCULTO */
-        .playlist {
-            margin-top: 30px;
-            background: var(--bg-color);
-            border-radius: 20px;
-            box-shadow: inset 6px 6px 12px var(--neu-shadow), 
-                        inset -6px -6px 12px var(--neu-white);
-            padding: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            /* Ocultar barra en navegadores modernos */
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
-        }
-
-        /* Ocultar barra en Chrome, Safari y Edge */
-        .playlist::-webkit-scrollbar {
-            display: none;
-        }
-
-        .track {
-            padding: 15px 20px;
-            border-radius: 15px;
+        .track-text h5 { margin: 0; font-size: 14px; }
+        .track-text p { margin: 1px 0 0 0; color: #777; font-size: 11px; }
+        .track-actions {
+            color: #aaa;
             cursor: pointer;
-            font-size: 15px;
-            margin-bottom: 5px;
-            color: #555;
         }
 
-        .active-track {
-            background: rgba(0, 113, 227, 0.1);
-            color: var(--accent-blue);
-            font-weight: 600;
-        }
+        /* AUDIO ELEMENTO */
+        audio { display: none; }
     </style>
 </head>
 <body>
@@ -199,160 +302,146 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="left-side">
-            <img id="portada-imagen" src="Bugatti - Anuel AA.png" alt="Portada" onclick="togglePlay()">
+    <div class="main-content">
+        
+        <div class="grid-container">
+            
+            <div class="blocks-top">
+                <div class="neu-block favoritos-block">
+                    <img src="Bugatti - Anuel AA.png" alt="Mosaico" class="favoritos-mosaic">
+                    <div class="favoritos-text">
+                        <h2>tus favoritos en repeat</h2>
+                        <p>Playlist</p>
+                        <button class="play-all-btn">
+                            <i class="material-icons" style="font-size: 18px;">play_arrow</i>
+                            Reproducir Todo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="neu-block artista-block">
+                    <img src="No te olvido - J Balvin X Anuel AA.png" alt="J Balvin" class="artista-foto">
+                    <p>Artista Destacado</p>
+                    <h3>J Balvin</h3>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </div>
+
+            <div class="neu-block leaks-block">
+                <h3 class="leaks-title">Nuevos Leaks</h3>
+                <div class="leaks-grid">
+                    <div class="leak-card">
+                        <img src="Bugatti - Anuel AA.png" alt="Bugatti" class="leak-foto">
+                        <h4>Bugatti</h4>
+                        <p>Anuel AA</p>
+                    </div>
+                    <div class="leak-card">
+                        <img src="Londres - Anuel AA.png" alt="Londres" class="leak-foto">
+                        <h4>Londres</h4>
+                        <p>Anuel AA</p>
+                    </div>
+                    <div class="leak-card">
+                        <img src="Amiri - Anuel ft CDobleta - Yovngchimi.png" alt="Amiri" class="leak-foto">
+                        <h4>Amiri</h4>
+                        <p>Anuel AA</p>
+                    </div>
+                    <div class="leak-card">
+                        <img src="No te olvido - J Balvin X Anuel AA.png" alt="No te olvido" class="leak-foto">
+                        <h4>No te olvido</h4>
+                        <p>Anuel AA</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="right-side">
-            <div class="info-tema">
-                <h2 id="titulo-actual">Bugatti</h2>
-                <p id="artista-actual">Anuel AA</p>
-                <audio id="audio-player">
-                    <source id="audio-source" src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
+        <div class="sidebar-right">
+            
+            <div class="neu-block player-active" onclick="abrirReproductor()">
+                <img src="Bugatti - Anuel AA.png" alt="Reproductor" class="player-foto">
+                <div class="player-info">
+                    <div class="player-text">
+                        <h4>Bugatti</h4>
+                        <p>Anuel AA</p>
+                    </div>
+                    <button class="player-btn" onclick="togglePlayPrincipal(event)">
+                        <i class="material-icons" id="main-play-icon" style="font-size: 24px;">play_arrow</i>
+                    </button>
+                </div>
+                <audio id="audio-home">
+                    <source src="Bugatti - Anuel AA.mp3" type="audio/mpeg">
                 </audio>
             </div>
 
-            <div>
-                <input type="range" id="progreso" value="0" min="0" max="100">
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #777; margin-top: 8px;">
-                    <span id="tiempo-actual">0:00</span>
-                    <span id="tiempo-total">0:00</span>
-                </div>
+            <div class="neu-block playlist-block">
+                <ul>
+                    <li class="track-item">
+                        <div class="track-left">
+                            <i class="material-icons" style="font-size: 18px; color: #777;">play_arrow</i>
+                            <div class="track-text">
+                                <h5>Bugatti</h5>
+                                <p>Anuel AA</p>
+                            </div>
+                        </div>
+                        <div class="track-actions">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </li>
+                    <li class="track-item">
+                        <div class="track-left">
+                            <i class="material-icons" style="font-size: 18px; color: #777;">pause</i>
+                            <div class="track-text">
+                                <h5>Londres</h5>
+                                <p>Anuel AA</p>
+                            </div>
+                        </div>
+                        <div class="track-actions">
+                            <i class="far fa-heart"></i>
+                        </div>
+                    </li>
+                    <li class="track-item">
+                        <div class="track-left">
+                            <i class="material-icons" style="font-size: 18px; color: #777;">play_arrow</i>
+                            <div class="track-text">
+                                <h5>No te olvido</h5>
+                                <p>Anuel AA</p>
+                            </div>
+                        </div>
+                        <div class="track-actions">
+                            <i class="far fa-heart"></i>
+                        </div>
+                    </li>
+                </ul>
             </div>
-
-            <div class="controls-row">
-                <div class="control-btn" id="btn-repeat" onclick="activarRepeticion()">
-                    <span class="material-icons">repeat</span>
-                </div>
-                <div class="control-btn" id="btn-random" onclick="activarAleatorio()">
-                    <span class="material-icons">shuffle</span>
-                </div>
-                <div class="control-btn" onclick="anterior()">
-                    <span class="material-icons">skip_previous</span>
-                </div>
-                <div class="control-btn" id="icon-play-container" onclick="togglePlay()">
-                    <span class="material-icons" id="icon-play" style="font-size: 40px;">play_arrow</span>
-                </div>
-                <div class="control-btn" onclick="siguiente()">
-                    <span class="material-icons">skip_next</span>
-                </div>
-            </div>
-            
-            <div class="volume-box">
-                <span class="material-icons" style="font-size: 18px; color: #777;">volume_up</span>
-                <input type="range" id="volumen" min="0" max="1" step="0.1" value="1" oninput="ajustarVolumen(this.value)">
-            </div>
-
-            <div class="playlist" id="lista-playlist"></div>
         </div>
     </div>
 
     <script>
-        const canciones = [
-            { audio: 'Bugatti - Anuel AA.mp3', imagen: 'Bugatti - Anuel AA.png', titulo: 'Bugatti', artista: 'Anuel AA' },
-            { audio: 'Londres - Anuel AA.mp3', imagen: 'Londres - Anuel AA.png', titulo: 'Londres', artista: 'Anuel AA' },
-            { audio: 'Amiri - Anuel ft CDobleta - Yovngchimi.mp3', imagen: 'Amiri - Anuel ft CDobleta - Yovngchimi.png', titulo: 'Amiri', artista: 'Anuel ft CDobleta - Yovngchimi' },
-            { audio: 'No te olvido - J Balvin X Anuel AA.mp3', imagen: 'No te olvido - J Balvin X Anuel AA.png', titulo: 'No te olvido', artista: 'J Balvin x Anuel AA' }
-        ];
+        const audioHome = document.getElementById('audio-home');
+        const mainPlayIcon = document.getElementById('main-play-icon');
 
-        let indiceActual = 0;
-        let esAleatorio = false;
-        let esRepeticion = false;
-        const audio = document.getElementById('audio-player');
-        const barraProgreso = document.getElementById('progreso');
-        const iconPlay = document.getElementById('icon-play');
-
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                iconPlay.innerText = "pause";
+        // Función 1: Reproducir el tema actual desde el botón
+        function togglePlayPrincipal(event) {
+            // event.stopPropagation() evita que el clic en el botón active el cuadro blanco
+            event.stopPropagation(); 
+            if (audioHome.paused) {
+                audioHome.play();
+                mainPlayIcon.innerText = "pause";
             } else {
-                audio.pause();
-                iconPlay.innerText = "play_arrow";
+                audioHome.pause();
+                mainPlayIcon.innerText = "play_arrow";
             }
         }
 
-        audio.ontimeupdate = function() {
-            if (audio.duration) {
-                const porcentaje = (audio.currentTime / audio.duration) * 100;
-                barraProgreso.value = porcentaje;
-                document.getElementById('tiempo-actual').innerText = formatearTiempo(audio.currentTime);
-                document.getElementById('tiempo-total').innerText = formatearTiempo(audio.duration);
-            }
+        // Función 2: Al hacer clic en el cuadro blanco, abre el reproductor
+        function abrirReproductor() {
+            // Reemplaza esto con el link a tu reproductor.html
+            window.location.href = "reproductor.html"; 
+        }
+
+        // Si la canción termina en home, resetea el icono
+        audioHome.onended = function() {
+            mainPlayIcon.innerText = "play_arrow";
         };
-
-        barraProgreso.oninput = function() {
-            audio.currentTime = (barraProgreso.value * audio.duration) / 100;
-        };
-
-        function formatearTiempo(seg) {
-            let m = Math.floor(seg / 60);
-            let s = Math.floor(seg % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        function ajustarVolumen(v) { audio.volume = v; }
-
-        function cambiarCancion(idx) {
-            indiceActual = idx;
-            audio.src = canciones[idx].audio;
-            document.getElementById('portada-imagen').src = canciones[idx].imagen;
-            document.getElementById('titulo-actual').innerText = canciones[idx].titulo;
-            document.getElementById('artista-actual').innerText = canciones[idx].artista;
-            audio.play();
-            iconPlay.innerText = "pause";
-            cargarPlaylist();
-        }
-
-        function siguiente() {
-            // Si la repetición está activada, vuelve a cargar la misma canción
-            if (esRepeticion) {
-                cambiarCancion(indiceActual);
-                return;
-            }
-            let next = esAleatorio ? Math.floor(Math.random() * canciones.length) : (indiceActual + 1) % canciones.length;
-            cambiarCancion(next);
-        }
-
-        function anterior() {
-            indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
-            cambiarCancion(indiceActual);
-        }
-
-        function activarAleatorio() {
-            esAleatorio = !esAleatorio;
-            document.getElementById('btn-random').style.color = esAleatorio ? "#0071e3" : "#777";
-        }
-
-        function activarRepeticion() {
-            esRepeticion = !esRepeticion;
-            document.getElementById('btn-repeat').style.color = esRepeticion ? "#0071e3" : "#777";
-        }
-
-        function cargarPlaylist() {
-            const lista = document.getElementById('lista-playlist');
-            lista.innerHTML = '';
-            canciones.forEach((c, i) => {
-                const div = document.createElement('div');
-                div.className = `track ${i === indiceActual ? 'active-track' : ''}`;
-                div.innerText = `${c.titulo} - ${c.artista}`;
-                div.onclick = () => cambiarCancion(i);
-                lista.appendChild(div);
-            });
-        }
-
-        // Esta función maneja qué pasa cuando termina la canción
-        audio.onended = function() {
-            if (esRepeticion) {
-                audio.currentTime = 0;
-                audio.play();
-            } else {
-                siguiente();
-            }
-        };
-
-        window.onload = cargarPlaylist;
     </script>
 </body>
 </html>
