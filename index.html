@@ -14,164 +14,215 @@
 
         body {
             background-color: var(--bg);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Barra Superior */
+        /* Barra Superior Negra */
         nav {
             width: 100%;
-            height: 60px;
-            background: #1a1a1a;
+            height: 70px;
+            background: #111;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 40px;
             box-sizing: border-box;
             color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .container {
+        .logo { font-weight: 900; font-size: 24px; letter-spacing: 2px; }
+        .search-bar {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            background: #333;
+            color: white;
+            width: 250px;
+        }
+
+        /* Contenedor Principal Simétrico */
+        .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto auto;
-            gap: 25px;
-            padding: 30px;
-            max-width: 1000px;
+            grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            width: 90%;
         }
 
-        /* Estilo Neumórfico de los Cuadros */
+        /* Tarjetas Neumórficas */
         .card {
             background: var(--bg);
-            border-radius: 20px;
-            box-shadow: 10px 10px 20px var(--shadow-dark), 
-                        -10px -10px 20px var(--shadow-light);
-            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 15px 15px 30px var(--shadow-dark), 
+                        -15px -15px 30px var(--shadow-light);
+            padding: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        /* Estilo del Reproductor Rápido */
+        .quick-player {
             display: flex;
             flex-direction: column;
             align-items: center;
-            cursor: pointer;
-            transition: 0.3s;
+            text-align: center;
         }
-
-        .card:active {
-            box-shadow: inset 5px 5px 10px var(--shadow-dark), 
-                        inset -5px -5px 10px var(--shadow-light);
+        .quick-player img {
+            width: 180px;
+            height: 180px;
+            border-radius: 20px;
+            box-shadow: 5px 5px 15px var(--shadow-dark);
+            margin-bottom: 15px;
         }
 
         /* Playlist Funcional */
-        .playlist-container {
-            width: 100%;
+        .playlist {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .song-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
+            padding: 12px 20px;
             background: var(--bg);
-            box-shadow: 4px 4px 8px var(--shadow-dark), 
-                        -4px -4px 8px var(--shadow-light);
+            border-radius: 15px;
+            box-shadow: 6px 6px 12px var(--shadow-dark), 
+                        -6px -6px 12px var(--shadow-light);
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        .song-info {
+        .song-item:active {
+            box-shadow: inset 4px 4px 8px var(--shadow-dark), 
+                        inset -4px -4px 8px var(--shadow-light);
+        }
+
+        .play-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--bg);
+            box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .play-icon {
+            justify-content: center;
+            margin-right: 15px;
             color: var(--accent);
-            font-weight: bold;
+            font-size: 14px;
         }
 
-        .playing {
-            color: #00ff00;
+        .song-name { font-size: 14px; color: #333; font-weight: 500; }
+
+        .playing .play-btn {
+            color: #00c853;
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        img { width: 100px; border-radius: 10px; }
+        /* Botón para ir al reproductor completo */
+        .full-view-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 15px;
+            background: var(--bg);
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
 <nav>
-    <div style="font-weight: bold; font-size: 20px;">LEAKED MUSIC</div>
-    <input type="text" placeholder="Buscar..." style="border-radius: 20px; border: none; padding: 5px 15px;">
+    <div class="logo">LEAKED MUSIC</div>
+    <input type="text" class="search-bar" placeholder="Buscar música o artistas...">
 </nav>
 
-<div class="container">
-    <div class="card" onclick="location.href='reproductor.html'">
-        <h3>Reproductor Principal</h3>
-        <img src="Bugatti - Anuel AA.png" alt="Bugatti">
-        <p>Anuel AA - Bugatti</p>
+<div class="main-grid">
+    <div class="card quick-player">
+        <div class="card-title">Reproduciendo Ahora</div>
+        <img src="Bugatti - Anuel AA.png" alt="Portada">
+        <div style="font-weight: bold;">Bugatti</div>
+        <div style="color: #777; font-size: 14px; margin-bottom: 20px;">Anuel AA</div>
+        <a href="reproductor.html" class="full-view-btn">VER REPRODUCTOR COMPLETO</a>
     </div>
 
     <div class="card">
-        <h3>Próximos Temas</h3>
-        <div class="playlist-container">
+        <div class="card-title">Tu Playlist</div>
+        <div class="playlist">
             <div class="song-item" onclick="playSong('Amiri - Anuel ft CDobleta.mp3', this)">
-                <div class="song-info">
-                    <span class="play-icon">▶</span>
-                    <span>Amiri - Anuel AA ft CDobleta</span>
-                </div>
+                <div class="play-btn">▶</div>
+                <div class="song-name">Amiri - Anuel AA ft CDobleta</div>
             </div>
             <div class="song-item" onclick="playSong('Londres - Anuel AA.mp3', this)">
-                <div class="song-info">
-                    <span class="play-icon">▶</span>
-                    <span>Londres - Anuel AA</span>
-                </div>
+                <div class="play-btn">▶</div>
+                <div class="song-name">Londres - Anuel AA</div>
             </div>
             <div class="song-item" onclick="playSong('No te olvido - J Balvin.mp3', this)">
-                <div class="song-info">
-                    <span class="play-icon">▶</span>
-                    <span>No te olvido - J Balvin</span>
-                </div>
+                <div class="play-btn">▶</div>
+                <div class="song-name">No te olvido - J Balvin</div>
             </div>
         </div>
     </div>
 </div>
 
-<audio id="main-audio"></audio>
+<audio id="global-audio"></audio>
 
 <script>
-    let currentAudio = document.getElementById('main-audio');
-    let currentPlayingItem = null;
+    const audio = document.getElementById('global-audio');
+    let currentItem = null;
 
-    function playSong(file, element) {
-        // Si ya está sonando, lo pausamos
-        if (currentAudio.src.includes(file) && !currentAudio.paused) {
-            currentAudio.pause();
-            element.querySelector('.play-icon').innerHTML = "▶";
-            element.classList.remove('playing');
+    function playSong(src, element) {
+        if (currentItem === element) {
+            if (audio.paused) {
+                audio.play();
+                element.querySelector('.play-btn').innerText = "⏸";
+                element.classList.add('playing');
+            } else {
+                audio.pause();
+                element.querySelector('.play-btn').innerText = "▶";
+                element.classList.remove('playing');
+            }
         } else {
-            // Si es una nueva canción o está pausada
-            if (!currentAudio.src.includes(file)) {
-                currentAudio.src = file;
+            if (currentItem) {
+                currentItem.classList.remove('playing');
+                currentItem.querySelector('.play-btn').innerText = "▶";
             }
-            
-            // Limpiar iconos anteriores
-            if (currentPlayingItem) {
-                currentPlayingItem.querySelector('.play-icon').innerHTML = "▶";
-                currentPlayingItem.classList.remove('playing');
-            }
-
-            currentAudio.play();
-            element.querySelector('.play-icon').innerHTML = "⏸";
+            audio.src = src;
+            audio.play();
             element.classList.add('playing');
-            currentPlayingItem = element;
+            element.querySelector('.play-btn').innerText = "⏸";
+            currentItem = element;
         }
     }
 </script>
